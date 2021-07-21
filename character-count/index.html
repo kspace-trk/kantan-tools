@@ -30,6 +30,16 @@
           <div class="num" v-if="text">{{ no_blank_text.length }}</div>
           <div class="num" v-else>0</div>
         </div>
+        <div class="detail">
+          <div class="label">行数</div>
+          <div class="num" v-if="text">{{ br_text.length }}</div>
+          <div class="num" v-else>0</div>
+        </div>
+        <div class="detail">
+          <div class="label">段落数</div>
+          <div class="num" v-if="text">{{ paragraph_num }}</div>
+          <div class="num" v-else>0</div>
+        </div>
       </div>
     </div>
   </div>
@@ -39,12 +49,20 @@
         el: "#app",
         data: {
           text: '',
-          no_blank_text: 0
+          no_blank_text: 0,
+          br_text: [],
+          paragraph_num: 1
         },
         methods: {
           inputText (text) {
             this.text = text
             this.no_blank_text = text.trim();
+            this.br_text = text.split(/\r\n|\n/)
+            this.br_text.forEach(element => {
+              if(element[0] == ' ') {
+                this.paragraph_num++;
+              }
+            });
           }
         }
       })
