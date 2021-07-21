@@ -8,17 +8,119 @@
 </head>
 <body>
   <div id="app">
-    <textarea v-model="text" cols="30" rows="10"></textarea>
-    <div class="result">文字数：{{ text.length }}</div>
+    <header></header>
+    <div class="title">
+      <h1>文字数カウント</h1>
+      <p>文字数をリアルタイムでカウントします。</p>
+    </div>
+    <div class="contents">
+      <div class="contents-l">
+        <textarea :value="text" @input="inputText($event.target.value)"></textarea>
+      </div>
+      <div class="contents-r">
+        <div class="result" v-if="text">{{ text.length }}</div>
+        <div class="result" v-else>0</div>
+        <div class="line"></div>
+        <div class="detail">
+          <div class="label">空白あり</div>
+          <div class="num">{{ text.length }}</div>
+        </div>
+        <div class="detail">
+          <div class="label">空白・改行なし</div>
+          <div class="num" v-if="text">{{ no_blank_text.length }}</div>
+          <div class="num" v-else>0</div>
+        </div>
+      </div>
+    </div>
   </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script>
       const app = new Vue({
         el: "#app",
         data: {
-          text: ''
+          text: '',
+          no_blank_text: 0
+        },
+        methods: {
+          inputText (text) {
+            this.text = text
+            this.no_blank_text = text.trim();
+          }
         }
       })
     </script>
 </body>
 </html>
+<style>
+html,
+body,
+h1,
+p {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  color: #595757;
+}
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+header {
+  width: 100%;
+  height: 75px;
+  background-color: #595757;
+}
+.title {
+  max-width: 1200px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 20px;
+}
+.title h1 {
+  font-size: 2rem;
+  font-weight: 400;
+}
+.contents {
+  max-width: 1200px;
+  width: 90%;
+  height: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.contents-l {
+  width: 60%;
+  height: 100%;
+}
+.contents-l textarea {
+  width: 100%;
+  height: 100%;
+}
+.contents-r {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.result {
+  font-size: 2rem;
+}
+.line {
+  width: 250px;
+  height: 1px;
+  background-color: #595757;
+  margin: 1rem 0 1.5rem 0;
+}
+.detail {
+  width: 220px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
