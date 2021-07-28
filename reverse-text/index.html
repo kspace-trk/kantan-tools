@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:description" content="改行の入った文章の順番を入れ替え、1番下の行から順に出力します。" />
+    <title>行並び替えツール</title>
+</head>
+<body>
+  <div id="app">
+    <header></header>
+    <div class="title">
+      <h1>行並び替えツール</h1>
+      <p>改行の入った文章の順番を入れ替え、1番下の行から順に出力します。</p>
+    </div>
+    <div class="contents">
+      <div class="contents-l">
+        <textarea v-model="input_text" placeholder="テキストを入力してください。"></textarea>
+      </div>
+      <button class="trans-btn" @click="transelate()">
+       <p>変換</p>
+      </button>
+      <div class="contents-r">
+        <textarea :value="output_text" readonly></textarea>
+        <img @click="copyToClipboard()" class="icon" src="copy-icon.svg" alt="copy icon">
+      </div>
+    </div>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          input_text: '',
+          input_text_array: [],
+          output_text: ''
+        },
+        methods: {
+          transelate () {
+            this.input_text_array = this.input_text.split(/\r\n|\n/)
+            this.input_text_array = this.input_text_array.reverse()
+            this.input_text_array.forEach((elem) => {
+              this.output_text += elem + '\r\n'
+            })
+          },
+          copyToClipboard () {
+            navigator.clipboard.writeText(this.output_text)
+          }
+        }
+      })
+    </script>
+</body>
+</html>
+<style>
+html,
+body,
+h1,
+p,
+button {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  color: #595757;
+}
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+header {
+  width: 100%;
+  height: 75px;
+  background-color: #595757;
+}
+.title {
+  max-width: 1200px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 20px;
+}
+.title h1 {
+  font-size: 2rem;
+  font-weight: 400;
+}
+.contents {
+  max-width: 1200px;
+  width: 90%;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.contents-l {
+  max-width: 500px;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.contents-r {
+  max-width: 500px;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.label {
+  width: 80px;
+  height: 45px;
+  background-color: #595757;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+}
+textarea {
+  width: calc(100% - 20px);
+  height: calc(100% - 45px);
+  padding: 10px;
+}
+textarea::placeholder {
+  color: #B4B5B5;
+}
+.icon {
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  cursor: pointer;
+}
+.trans-btn {
+  width: 100px;
+  height: 100px;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+  background-color: #595757;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  margin: 0 40px;
+  filter: drop-shadow(0 3px 6px rgba(#000000, 0.16));
+}
+.trans-btn p {
+  color: #ffffff;
+  text-align: left;
+  margin-left: 40px;
+}
+@media screen and (max-width: 1300px) {
+  .contents {
+    flex-direction: column;
+    margin-bottom: 50px;
+  }
+  .trans-btn {
+    width: 100px;
+    height: 40px;
+    clip-path: none;
+    background-color: #595757;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    margin: 0 40px;
+    filter: drop-shadow(0 3px 6px rgba(#000000, 0.16));
+    margin: 40px 0;
+  }
+  .trans-btn p {
+    color: #ffffff;
+    text-align: center;
+    margin-left: 0;
+  }
+}
+</style>
