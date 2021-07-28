@@ -51,14 +51,15 @@
           text: '',
           no_blank_text: 0,
           br_text: [],
-          paragraph_num: 1
+          paragraph_num: 0
         },
         methods: {
           inputText (text) {
             this.text = text
             this.no_blank_text = text.trim();
             this.br_text = text.split(/\r\n|\n/)
-            this.br_text.forEach(element => {
+            this.paragraph_num = 0
+            this.br_text.forEach((element) => {
               if(element[0] == ' ') {
                 this.paragraph_num++;
               }
