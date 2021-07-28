@@ -16,14 +16,19 @@
     </div>
     <div class="contents">
       <div class="contents-l">
-        <div class="label">、。</div>
+        <div class="label-wrapper">
+          <div class="label" :class="{active: active1}" @click="select(1)">(1)</div>
+          <div class="label" :class="{active: active2}" @click="select(2)">1. </div>
+          <div class="label" :class="{active: active3}" @click="select(3)">・</div>
+          <div class="label" :class="{active: active4}" @click="select(4)">- </div>
+        </div>
         <textarea v-model="input_text" placeholder="テキストを入力してください。"></textarea>
       </div>
       <button class="trans-btn" @click="transelate()">
        <p>変換</p>
       </button>
       <div class="contents-r">
-        <div class="label">，．</div>
+        <div class="label-spacer"></div>
         <textarea :value="output_text" readonly></textarea>
         <img @click="copyToClipboard()" class="icon" src="copy-icon.svg" alt="copy icon">
       </div>
@@ -34,13 +39,55 @@
       const app = new Vue({
         el: "#app",
         data: {
+          active1: true,
+          active2: false,
+          active3: false,
+          active4: false,
           input_text: '',
+          br_text: [],
           output_text: ''
         },
         methods: {
+          select (n) {
+            if(n == 1) {
+              this.active1 = true
+              this.active2 = false
+              this.active3 = false
+              this.active4 = false
+            } else if (n == 2) {
+              this.active1 = false
+              this.active2 = true
+              this.active3 = false
+              this.active4 = false
+            } else if (n == 3) {
+              this.active1 = false
+              this.active2 = false
+              this.active3 = true
+              this.active4 = false
+            } else if (n == 4) {
+              this.active1 = false
+              this.active2 = false
+              this.active3 = false
+              this.active4 = true
+            }
+          },
           transelate () {
-            this.output_text = this.input_text.replace(/、/g, "，")
-            this.output_text = this.output_text.replace(/。/g, "．")
+            this.output_text = ''
+            this.br_text = this.input_text.split(/\r\n|\n/)
+            let n = 1
+            this.br_text.forEach((elem) => {
+              if(this.active1){
+                this.output_text += '(' + n + ')' + ' ' + elem + '\r\n'
+                n++
+              } else if (this.active2){
+                this.output_text += n + '.' + ' ' + elem + '\r\n'
+                n++
+              } else if (this.active3){
+                this.output_text += '・' + elem + '\r\n'
+              } else if (this.active4){
+                this.output_text += '- ' + elem + '\r\n'
+              }
+            })
           },
           copyToClipboard () {
             navigator.clipboard.writeText(this.output_text)
@@ -113,13 +160,29 @@ header {
   justify-content: center;
   position: relative;
 }
+.label-wrapper {
+  display: flex;
+  align-items: center;
+}
 .label {
   width: 80px;
   height: 45px;
-  background-color: #595757;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #595757;
   display: grid;
   place-items: center;
+  margin-right: 1px;
+  border: 1px solid #595757;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.active {
+  color: #ffffff;
+  background-color: #595757;
+}
+.label-spacer {
+  width: 80px;
+  height: 45px;
 }
 textarea {
   width: calc(100% - 20px);
