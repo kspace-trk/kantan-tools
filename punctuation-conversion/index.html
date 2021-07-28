@@ -87,7 +87,7 @@ header {
 .contents {
   max-width: 1200px;
   width: 90%;
-  height: 500px;
+  min-height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -149,5 +149,28 @@ textarea::placeholder {
   color: #ffffff;
   text-align: left;
   margin-left: 40px;
+}
+@media screen and (max-width: 1300px) {
+  .contents {
+    flex-direction: column;
+    margin-bottom: 50px;
+  }
+  .trans-btn {
+    width: 100px;
+    height: 40px;
+    clip-path: none;
+    background-color: #595757;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    margin: 0 40px;
+    filter: drop-shadow(0 3px 6px rgba(#000000, 0.16));
+    margin: 40px 0;
+  }
+  .trans-btn p {
+    color: #ffffff;
+    text-align: center;
+    margin-left: 0;
+  }
 }
 </style>
