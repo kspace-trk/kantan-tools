@@ -21,8 +21,9 @@ header h2 {
   display: flex;
   align-items: center;
 }
-.header-r p {
+.header-r .link {
   margin-right: 4rem;
+  cursor: pointer;
 }
 .header-r .btn {
   width: 200px;
@@ -90,6 +91,7 @@ header h2 {
   border-radius: 35px;
   filter: drop-shadow(0 3px 6px #00000016);
   background-color: #ffffff;
+  cursor: pointer;
   overflow: hidden;
 }
 .img-prev {
