@@ -133,7 +133,7 @@ footer {
   header h2 {
     font-size: 1rem;
   }
-  .header-r p {
+  .header-r .link {
     display: none;
   }
   .header-r .btn {
